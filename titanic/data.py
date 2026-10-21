@@ -50,7 +50,7 @@ def most_frequent_summary(df: pd.DataFrame) -> pd.DataFrame:
 
     Args:
         df: Dataset to inspect.
-        
+
     Returns:
         A table containing non-missing counts, most frequent values,
         their frequencies, and percentages of non-missing values.
@@ -100,3 +100,22 @@ def unique_summary(df: pd.DataFrame) -> pd.DataFrame:
 
     summary["Uniques"] = uniques
     return summary.T
+
+def combine_datasets(
+    train_df: pd.DataFrame,
+    test_df: pd.DataFrame,
+) -> pd.DataFrame:
+    """Combine training and test data for exploratory analysis.
+
+    Args:
+        train_df: Training dataset.
+        test_df: Test dataset.
+
+    Returns:
+        A combined table with a 'set' column identifying each
+        row's source. The input datasets are not modified.
+    """
+    train = train_df.assign(set="train")
+    test = test_df.assign(set="test")
+
+    return pd.concat([train, test], axis=0)
