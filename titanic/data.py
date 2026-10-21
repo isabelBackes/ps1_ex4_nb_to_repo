@@ -118,4 +118,4 @@ def combine_datasets(
     train = train_df.assign(set="train")
     test = test_df.assign(set="test")
 
-    return pd.concat([train, test], axis=0)
+    return pd.concat([train, test], axis=0, ignore_index=True)
