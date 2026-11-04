@@ -112,3 +112,18 @@ def encode_sex(df):
         {"female": 1, "male": 0, 1: 1, 0: 0}
     ).astype(int)
     return df
+
+def add_age_group(df):
+    """Bin age into Child (≤16), Adult (17–64), Senior (65+) and Missing.
+
+    Unlike ``add_age_interval``, missing ages get their own group instead of
+    being merged with the youngest passengers.
+    """
+    df = df.copy()
+    df["Age Group"] = pd.cut(
+        df["Age"],
+        bins=[0, 16, 64, float("inf")],
+        labels=["Child", "Adult", "Senior"],
+    ).astype(object)
+    df["Age Group"] = df["Age Group"].fillna("Missing")
+    return df

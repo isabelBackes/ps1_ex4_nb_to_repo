@@ -43,3 +43,18 @@ def evaluate_model(y_true, y_pred):
         target_names=["Not Survived", "Survived"],
         zero_division=0,
     )
+
+def permutation_importances(model, X, y, n_repeats=30):
+    """Return permutation importances as a Series indexed by feature name.
+
+    Each feature is shuffled ``n_repeats`` times; the importance is the mean
+    drop in accuracy. Computed on held-out data, so it reflects what the
+    model actually uses to generalise.
+    """
+    import pandas as pd
+    from sklearn.inspection import permutation_importance
+
+    result = permutation_importance(
+        model, X, y, n_repeats=n_repeats, random_state=42
+    )
+    return pd.Series(result.importances_mean, index=X.columns)
